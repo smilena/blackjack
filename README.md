@@ -1,2 +1,8 @@
-# blackjack
-Blackjack game - recursion
+#Blackjack
+
+Blackjack recursion
+
+## Project setup
+```
+python3 blackjack.py
+```
