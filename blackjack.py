@@ -8,12 +8,14 @@ def getDeck():
             for suit in ('Diamantes', 'Corazones', 'Picas', 'Treboles')
         ]
 
-def getCard(deck):
-    return random.randint(0, len(deck)-1)
+def getCard(deck, hand, player):
+    index = random.randint(0, len(deck)-1)
+    printNewCard(deck, index, player)
+    hand.append(deck[index])
+    deck.pop(index)
 
 def printHand(hand):
     return [card[0][0]+' '+card[1] for card in hand]
-
 
 def evaluateHand(hand):
     if(len(hand)>0 and int(reduce(lambda a, b: a + b, [card[0][1] for card in hand])) >= 21):
@@ -26,38 +28,10 @@ def printNewCard(deck, index, player):
     print("---------------------------------------")
 
 def blackjack(deck, userHand, pcHand):
-    if(len(userHand) == 0 or pcHand == 0):
-        # Carta para jugador
-        if(evaluateHand(userHand)):
-            indexUser = getCard(deck)
-            printNewCard(deck, indexUser, 'Jugador')
-            userHand.append(deck[indexUser])
-            deck.pop(indexUser)
-        
-        #Carta para máquina
-        if(evaluateHand(pcHand)):
-            indexPc = getCard(deck)
-            printNewCard(deck, indexPc, 'PC')
-            pcHand.append(deck[indexPc])
-            deck.pop(indexPc)
-
+    if(evaluateHand(userHand) and evaluateHand(pcHand)):
+        getCard(deck, userHand, 'Jugador')
+        getCard(deck, pcHand, 'PC')       
         blackjack(deck, userHand, pcHand)
-    else:
-        # Carta para jugador
-        if(evaluateHand(userHand)):
-            indexUser = getCard(deck)
-            printNewCard(deck, indexUser, 'Jugador')
-            userHand.append(deck[indexUser])
-            deck.pop(indexUser)
-            blackjack(deck, userHand, pcHand)
-
-        #Carta para máquina
-        if(evaluateHand(pcHand)):
-            indexPc = getCard(deck)
-            printNewCard(deck, indexPc, 'PC')
-            pcHand.append(deck[indexPc])
-            deck.pop(indexPc)
-            blackjack(deck, userHand, pcHand)
 
 
 if __name__ == "__main__":
